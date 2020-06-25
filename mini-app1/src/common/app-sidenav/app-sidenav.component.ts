@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-app-sidenav',
   template: `
-    <div class="app-app-sidenav">
+    <div *ngIf="show" class="app-app-sidenav">
       <div>Menu 1</div>
       <div>Menu 1</div>
       <div>Menu 1</div>
@@ -15,17 +15,19 @@ import { Component, OnInit } from '@angular/core';
       :host {
         position: fixed;
         width: 100%;
-        top: 33%;
+        top: 85px;
       }
       .app-app-sidenav {
         position: fixed;
         background: red;
-        width: 140px;
+        width: 149px;
       }
     `,
   ],
 })
 export class AppSidenavComponent implements OnInit {
+  @Input() show;
+
   constructor() {}
 
   ngOnInit(): void {}
