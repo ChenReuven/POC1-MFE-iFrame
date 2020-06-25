@@ -7,15 +7,25 @@ import { Component } from '@angular/core';
     <div class="shell-top-nav">
       <div class="cyberark-logo">CyberArk Logo <span>Pin</span></div>
       <div class="apps-selection">
-        Mini App 1 icon
+        <button (click)="navigateTo('mini-app1')">Mini App 1 icon</button>
+        <button (click)="navigateTo('mini-app2')">Mini App 2 icon</button>
       </div>
     </div>
 
-    <iframe
-      class="full-page iframe-container"
-      src="http://localhost:4001/"
-      frameborder="0"
-    ></iframe>
+    <div>
+      <iframe
+        *ngIf="selectedApp === 'mini-app1'"
+        class="full-page iframe-container"
+        src="http://localhost:4001/"
+        frameborder="0"
+      ></iframe>
+      <iframe
+        *ngIf="selectedApp === 'mini-app2'"
+        class="full-page iframe-container"
+        src="http://localhost:4001/"
+        frameborder="0"
+      ></iframe>
+    </div>
 
     <router-outlet></router-outlet>
   `,
@@ -40,9 +50,18 @@ import { Component } from '@angular/core';
       padding: 10px;
       color: #FFF;
     }
+    .apps-selection{
+      display: flex;
+      flex-direction: column;
+    }
     `,
   ],
 })
 export class AppComponent {
   title = 'shell-ui';
+  selectedApp = 'mini-app1';
+
+  navigateTo(app: string): void {
+    this.selectedApp = app;
+  }
 }

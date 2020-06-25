@@ -15,7 +15,7 @@ import { Component, OnInit } from '@angular/core';
       :host {
         position: fixed;
         width: 100%;
-        top: 56px;
+        top: 33%;
       }
       .app-app-sidenav {
         position: fixed;
