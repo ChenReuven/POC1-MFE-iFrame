@@ -16,13 +16,13 @@ import { Component } from '@angular/core';
       <iframe
         *ngIf="selectedApp === 'mini-app1'"
         class="full-page iframe-container"
-        src="http://localhost:4001/"
+        src="http://localhost:4201/"
         frameborder="0"
       ></iframe>
       <iframe
         *ngIf="selectedApp === 'mini-app2'"
         class="full-page iframe-container"
-        src="http://localhost:4001/"
+        src="http://localhost:4202/"
         frameborder="0"
       ></iframe>
     </div>
