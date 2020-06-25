@@ -21,6 +21,7 @@ import { Component, OnInit, Input } from '@angular/core';
         position: fixed;
         background: red;
         width: 149px;
+        height: 100%;
       }
     `,
   ],
