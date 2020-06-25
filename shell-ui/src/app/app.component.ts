@@ -4,6 +4,13 @@ import { Component } from '@angular/core';
   selector: 'app-root',
   template: `
     <!--The content below is only a placeholder and can be replaced.-->
+    <div class="shell-top-nav">
+      <div class="cyberark-logo">CyberArk Logo <span>Pin</span></div>
+      <div class="apps-selection">
+        Mini App 1 icon
+      </div>
+    </div>
+
     <iframe
       class="full-page iframe-container"
       src="http://localhost:4001/"
@@ -21,6 +28,15 @@ import { Component } from '@angular/core';
     }
     .iframe-container {
       border: 0px'
+    }
+    .shell-top-nav {
+      position: absolute;
+      box-sizing: border-box;
+    }
+    .cyberark-logo {
+      background: blue;
+      padding: 10px;
+      color: #FFF;
     }
     `,
   ],
