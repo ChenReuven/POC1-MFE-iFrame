@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
     <!--The content below is only a placeholder and can be replaced.-->
     <iframe
       class="full-page iframe-container"
-      src="https://vuejs.org/"
+      src="http://localhost:4001/"
       frameborder="0"
     ></iframe>
     <router-outlet></router-outlet>
