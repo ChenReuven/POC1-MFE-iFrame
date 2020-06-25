@@ -16,6 +16,7 @@ import { Component } from '@angular/core';
       src="http://localhost:4001/"
       frameborder="0"
     ></iframe>
+
     <router-outlet></router-outlet>
   `,
   styles: [
@@ -32,6 +33,7 @@ import { Component } from '@angular/core';
     .shell-top-nav {
       position: absolute;
       box-sizing: border-box;
+      background: #FFF;
     }
     .cyberark-logo {
       background: blue;
