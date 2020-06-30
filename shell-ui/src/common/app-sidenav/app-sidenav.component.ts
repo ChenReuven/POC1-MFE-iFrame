@@ -1,16 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-export interface AppMenuLink {
-  url: string;
-  name: string;
-  displayName?: string;
-}
-
-export interface MiniAppMenuLink {
+export interface MenuLink {
   path: string;
   name: string;
   displayName?: string;
 }
+
 @Component({
   selector: 'app-sidenav',
   template: `
@@ -20,11 +15,18 @@ export interface MiniAppMenuLink {
         <button (click)="toggleMenu()">Pin</button>
       </div>
       <div *ngIf="show" class="apps-selection">
-        <button class="menu-app-btn" *ngFor="let appMenu of appMenuLinks">
+        <button
+          class="menu-app-btn"
+          *ngFor="let appMenu of appMenuLinks"
+          (click)="navigateTo(appMenu)"
+        >
           {{ appMenu.displayName }}
         </button>
         <div class="app-app-sidenav">
-          <div *ngFor="let miniAppMenu of miniAppMenuLinks">
+          <div
+            *ngFor="let miniAppMenu of miniAppMenuLinks"
+            (click)="navigateTo(miniAppMenu)"
+          >
             {{ miniAppMenu.displayName }}
           </div>
         </div>
@@ -53,17 +55,20 @@ export interface MiniAppMenuLink {
   ],
 })
 export class AppSidenavComponent implements OnInit {
-  @Input() appMenuLinks: AppMenuLink[];
-  @Input() miniAppMenuLinks: MiniAppMenuLink[];
+  @Input() appMenuLinks: MenuLink[];
+  @Input() miniAppMenuLinks: MenuLink[];
 
   @Input() show: boolean;
   @Output() toggle = new EventEmitter<string>();
+  @Output() click = new EventEmitter<MenuLink>();
 
   constructor() {}
 
   ngOnInit(): void {}
 
-  navigateTo(url: string) {}
+  navigateTo(link: MenuLink) {
+    this.click.emit(link);
+  }
 
   toggleMenu() {
     this.toggle.emit('');

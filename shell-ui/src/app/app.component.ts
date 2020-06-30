@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
 import { HostListener } from '@angular/core';
 import { APP_MENU_LINKS, MINI_APP_MENU_LINKS } from './menuLinks.const';
+import { MenuLink } from 'src/common/app-sidenav/app-sidenav.component';
 @Component({
   selector: 'app-root',
   template: `
@@ -12,6 +13,7 @@ import { APP_MENU_LINKS, MINI_APP_MENU_LINKS } from './menuLinks.const';
         [appMenuLinks]="appMenuLinks"
         [miniAppMenuLinks]="miniAppMenuLinks"
         (toggle)="showMenu = !showMenu"
+        (click)="navigateTo($event)"
       >
       </app-sidenav>
 
@@ -182,7 +184,8 @@ export class AppComponent implements AfterViewInit {
     return document.querySelector('#apps-container') as HTMLElement;
   }
 
-  navigateTo(app: string): void {
-    this.selectedApp = app;
+  navigateTo(link: MenuLink): void {
+    // Need to Update iFrame
+    console.log(link);
   }
 }
