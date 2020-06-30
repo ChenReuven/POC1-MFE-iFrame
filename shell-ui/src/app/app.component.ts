@@ -13,6 +13,7 @@ import { HostListener } from '@angular/core';
       <div *ngIf="showMenu" class="apps-selection">
         <button (click)="navigateTo('mini-app1')">Mini App 1 icon</button>
         <button (click)="navigateTo('mini-app2')">Mini App 2 icon</button>
+        <app-app-sidenav> </app-app-sidenav>
       </div>
     </div>
 
@@ -128,30 +129,29 @@ export class AppComponent implements AfterViewInit {
     this.appendFrame(frame);
     frame.src = this.applications[appName].url + innerRoute;
     this.applications[appName].frame =
-
-    // frame.addEventListener('load', this.onFrameLoad.bind(this, frame, appName));
-    frame.addEventListener('load', function () {
-      console.log('Loaded!');
-      // frame.contentWindow.addEventListener(
-      //   'hashchange',
-      //   function (event) {
-      //     console.log('The hash has changed!');
-      //   },
-      //   false
-      // );
-      frame.addEventListener(
-        'popstate',
-        function (event) {
-          console.log(
-            'location: ' +
-              document.location +
-              ', state: ' +
-              JSON.stringify(event)
-          );
-        },
-        false
-      );
-    });
+      // frame.addEventListener('load', this.onFrameLoad.bind(this, frame, appName));
+      frame.addEventListener('load', function () {
+        console.log('Loaded!');
+        // frame.contentWindow.addEventListener(
+        //   'hashchange',
+        //   function (event) {
+        //     console.log('The hash has changed!');
+        //   },
+        //   false
+        // );
+        frame.addEventListener(
+          'popstate',
+          function (event) {
+            console.log(
+              'location: ' +
+                document.location +
+                ', state: ' +
+                JSON.stringify(event)
+            );
+          },
+          false
+        );
+      });
 
     return frame;
   }

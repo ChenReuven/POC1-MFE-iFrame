@@ -1,4 +1,3 @@
-import { CommonModule } from './../common/common.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -9,7 +8,7 @@ import { SecondComponent } from './second/second.component';
 
 @NgModule({
   declarations: [AppComponent, FirstComponent, SecondComponent],
-  imports: [BrowserModule, AppRoutingModule, CommonModule],
+  imports: [BrowserModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent],
 })

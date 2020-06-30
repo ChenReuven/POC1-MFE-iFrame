@@ -6,8 +6,6 @@ import { HostListener } from '@angular/core';
   template: `
     <!-- Layout for Side Nav App -->
     <div>
-      <app-app-sidenav [show]="miniAppState.showMenu"> </app-app-sidenav>
-
       <div class="main-layout">
         <!--The content below is only a placeholder and can be replaced.-->
         <router-outlet></router-outlet>

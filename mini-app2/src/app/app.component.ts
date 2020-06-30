@@ -5,8 +5,6 @@ import { Component, HostListener } from '@angular/core';
   template: `
     <!--The content below is only a placeholder and can be replaced.-->
     <div>
-      <app-app-sidenav [show]="miniAppState.showMenu"> </app-app-sidenav>
-
       <div class="main-layout">
         <div style="text-align:center" class="content">
           <h1>{{ title }}!</h1>

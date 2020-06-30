@@ -3,7 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 @Component({
   selector: 'app-app-sidenav',
   template: `
-    <div *ngIf="show" class="app-app-sidenav">
+    <div class="app-app-sidenav">
       <div>Menu 1</div>
       <div>Menu 1</div>
       <div>Menu 1</div>
@@ -27,8 +27,6 @@ import { Component, OnInit, Input } from '@angular/core';
   ],
 })
 export class AppSidenavComponent implements OnInit {
-  @Input() show;
-
   constructor() {}
 
   ngOnInit(): void {}
