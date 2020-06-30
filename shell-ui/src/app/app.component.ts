@@ -4,20 +4,10 @@ import { HostListener } from '@angular/core';
 @Component({
   selector: 'app-root',
   template: `
-    <!--The content below is only a placeholder and can be replaced.-->
-    <div class="shell-top-nav">
-      <div class="cyberark-logo">
-        <span *ngIf="showMenu">CyberArk Logo</span>
-        <button (click)="toggleMenu()">Pin</button>
-      </div>
-      <div *ngIf="showMenu" class="apps-selection">
-        <button (click)="navigateTo('mini-app1')">Mini App 1 icon</button>
-        <button (click)="navigateTo('mini-app2')">Mini App 2 icon</button>
-        <app-app-sidenav> </app-app-sidenav>
-      </div>
-    </div>
+    <div class="app-container">
+      <app-sidenav class="app-sidenav"> </app-sidenav>
 
-    <!-- div>
+      <!-- div>
       <iframe
         *ngIf="selectedApp === 'mini-app1'"
         class="full-page iframe-container"
@@ -33,30 +23,28 @@ import { HostListener } from '@angular/core';
         #miniApp2
       ></iframe>
     </div-->
-    <div main id="apps-container" class="full-page iframe-container">
-      <router-outlet></router-outlet>
+      <div main id="apps-container" class="iframe-container full-page">
+        <router-outlet></router-outlet>
+      </div>
     </div>
   `,
   styles: [
     `
+    .app-container {
+
+    }
+    .app-sidenav{
+      width: 20%;
+      display: inline-block;
+    }
     .full-page {
-      width: 100%;
       height: 100vh;
       margin: 0;
       padding: 0;
+      display: inline-block;
     }
     .iframe-container {
       border: 0px'
-    }
-    .shell-top-nav {
-      position: absolute;
-      box-sizing: border-box;
-      background: #FFF;
-    }
-    .cyberark-logo {
-      background: blue;
-      padding: 10px;
-      color: #FFF;
     }
     .apps-selection{
       display: flex;
@@ -119,8 +107,7 @@ export class AppComponent implements AfterViewInit {
     frame.id = `frame-${appName}`;
     frame.name = `frame-${appName}`;
     frame.setAttribute('data-app-name', appName);
-    // tslint:disable-next-line: deprecation
-    //frame.frameBorder = '0';
+    frame.frameBorder = '0';
 
     // if first app
     // if (!this.currentAppName) {
