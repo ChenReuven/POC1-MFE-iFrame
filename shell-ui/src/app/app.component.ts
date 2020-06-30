@@ -5,7 +5,12 @@ import { HostListener } from '@angular/core';
   selector: 'app-root',
   template: `
     <div class="app-container">
-      <app-sidenav class="app-sidenav"> </app-sidenav>
+      <app-sidenav
+        class="app-sidenav"
+        [show]="showMenu"
+        (toggle)="showMenu = !showMenu"
+      >
+      </app-sidenav>
 
       <!-- div>
       <iframe
@@ -36,6 +41,7 @@ import { HostListener } from '@angular/core';
     .app-sidenav{
       width: 20%;
       display: inline-block;
+      vertical-align: top;
     }
     .full-page {
       height: 100vh;

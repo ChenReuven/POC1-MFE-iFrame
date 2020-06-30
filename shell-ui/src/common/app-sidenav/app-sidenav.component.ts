@@ -1,14 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-sidenav',
   template: `
     <div class="shell-top-nav">
       <div class="cyberark-logo">
-        <span>CyberArk Logo</span>
-        <button>Pin</button>
+        <span *ngIf="show">CyberArk Logo</span>
+        <button (click)="toggleMenu()">Pin</button>
       </div>
-      <div class="apps-selection">
+      <div *ngIf="show" class="apps-selection">
         <button (click)="navigateTo('mini-app1')">Mini App 1 icon</button>
         <button (click)="navigateTo('mini-app2')">Mini App 2 icon</button>
         <div class="app-app-sidenav">
@@ -39,9 +39,16 @@ import { Component, OnInit, Input } from '@angular/core';
   ],
 })
 export class AppSidenavComponent implements OnInit {
+  @Input() show: boolean;
+  @Output() toggle = new EventEmitter<string>();
+
   constructor() {}
 
   ngOnInit(): void {}
 
   navigateTo(url: string) {}
+
+  toggleMenu() {
+    this.toggle.emit('');
+  }
 }
