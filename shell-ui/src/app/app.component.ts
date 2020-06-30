@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
 import { HostListener } from '@angular/core';
+import { APP_MENU_LINKS, MINI_APP_MENU_LINKS } from './menuLinks.const';
 @Component({
   selector: 'app-root',
   template: `
@@ -8,6 +9,8 @@ import { HostListener } from '@angular/core';
       <app-sidenav
         class="app-sidenav"
         [show]="showMenu"
+        [appMenuLinks]="appMenuLinks"
+        [miniAppMenuLinks]="miniAppMenuLinks"
         (toggle)="showMenu = !showMenu"
       >
       </app-sidenav>
@@ -60,6 +63,9 @@ export class AppComponent implements AfterViewInit {
   title = 'shell-ui';
   selectedApp = 'mini-app1';
   showMenu = true;
+  appMenuLinks = APP_MENU_LINKS;
+  miniAppMenuLinks = MINI_APP_MENU_LINKS;
+
   applications = {
     'mini-app1': {
       url: 'http://localhost:4201',
