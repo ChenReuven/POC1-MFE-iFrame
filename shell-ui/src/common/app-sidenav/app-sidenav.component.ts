@@ -1,5 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
+export interface MenuLink {
+  url: string;
+  name: string;
+  displayName?: string;
+}
 @Component({
   selector: 'app-sidenav',
   template: `
@@ -39,6 +44,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   ],
 })
 export class AppSidenavComponent implements OnInit {
+  @Input() menuLinks: MenuLink[];
   @Input() show: boolean;
   @Output() toggle = new EventEmitter<string>();
 

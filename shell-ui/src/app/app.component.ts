@@ -35,9 +35,6 @@ import { HostListener } from '@angular/core';
   `,
   styles: [
     `
-    .app-container {
-
-    }
     .app-sidenav{
       width: 20%;
       display: inline-block;
