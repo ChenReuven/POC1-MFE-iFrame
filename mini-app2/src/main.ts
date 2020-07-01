@@ -8,5 +8,9 @@ if (environment.production) {
   enableProdMode();
 }
 
+declare const window: any;
+
+window.parent.postMessage('UPDATE_NAVIGATION', '*');
+
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));

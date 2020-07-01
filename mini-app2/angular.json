@@ -125,6 +125,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "mini-app2"
+    }
+  },
+  "defaultProject": "mini-app2",
+  "cli": {
+    "analytics": false
+  }
 }
