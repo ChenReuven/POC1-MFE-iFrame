@@ -3,13 +3,17 @@ import { ViewChild, ElementRef } from '@angular/core';
 import { HostListener } from '@angular/core';
 import { APP_MENU_LINKS, MINI_APP_MENU_LINKS } from './menuLinks.const';
 import { MenuLink } from 'src/common/app-sidenav/app-sidenav.component';
+import { ShellService } from './services/shell.service';
+
+declare let window: any;
+
 @Component({
   selector: 'app-root',
   template: `
     <div class="app-container">
       <app-sidenav
         class="app-sidenav"
-        [show]="showMenu"
+        [show]="shellService.showMenu"
         [appMenuLinks]="appMenuLinks"
         [miniAppMenuLinks]="miniAppMenuLinks"
         (toggle)="showMenu = !showMenu"
@@ -67,35 +71,27 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('miniApp1') miniApp1Ref: ElementRef;
   @ViewChild('miniApp2') miniApp2Ref: ElementRef;
 
-  // @HostListener('window:hashchange', ['$event']) someFunction(event) {
-  //   console.log('window:hashchange');
-  //   console.log('event = ', event);
-  // }
+  constructor(public shellService: ShellService) {}
 
   ngAfterViewInit(): void {
-    this.createAppFrame('mini-app1');
+    this.loadAppByRoute();
+    window.addEventListener('hashchange', () => {
+      console.log('!!!hashchange!!!');
+
+      // this.loadAppByRoute.bind(this)
+    });
+  }
+
+  loadAppByRoute() {
+    const [empty, appName, ...pathname] = window.location.pathname.split('/');
+    if (!!appName) {
+      const frame = this.createAppFrame(appName, pathname.join('/'));
+      this.shellService.addListenerToApp(appName, frame);
+    }
   }
 
   toggleMenu() {
-    this.showMenu = !this.showMenu;
-    if (this.selectedApp === 'mini-app1') {
-      this.miniApp1Ref.nativeElement.contentWindow.postMessage(
-        JSON.stringify({ showMenu: this.showMenu }),
-        'http://localhost:4201'
-      );
-      this.miniApp1Ref.nativeElement.contentWindow.addEventListener(
-        'hashchange',
-        (event) => {
-          console.log('The hash has changed!');
-        },
-        false
-      );
-    } else if (this.selectedApp === 'mini-app2') {
-      this.miniApp2Ref.nativeElement.contentWindow.postMessage(
-        JSON.stringify({ showMenu: this.showMenu }),
-        'http://localhost:4202'
-      );
-    }
+    this.shellService.dispatch(<any>{ data: { type: 'TOGGLE_MENU' } });
   }
 
   private createAppFrame(
@@ -107,57 +103,17 @@ export class AppComponent implements AfterViewInit {
     frame.name = `frame-${appName}`;
     frame.setAttribute('data-app-name', appName);
     frame.frameBorder = '0';
+    frame.classList.add('app-frame');
 
     // if first app
-    // if (!this.currentAppName) {
-    //   this.currentAppName = appName;
-    // }
+    if (!this.selectedApp) {
+      this.selectedApp = appName;
+    }
     this.appendFrame(frame);
-    frame.src = this.applications[appName].url + innerRoute;
-    this.applications[appName].frame =
-      // frame.addEventListener('load', this.onFrameLoad.bind(this, frame, appName));
-      frame.addEventListener('load', function () {
-        console.log('Loaded!');
-        // frame.contentWindow.addEventListener(
-        //   'hashchange',
-        //   function (event) {
-        //     console.log('The hash has changed!');
-        //   },
-        //   false
-        // );
-        frame.addEventListener(
-          'popstate',
-          function (event) {
-            console.log(
-              'location: ' +
-                document.location +
-                ', state: ' +
-                JSON.stringify(event)
-            );
-          },
-          false
-        );
-      });
+    // frame.src = this.applications[appName].url + innerRoute;
+    frame.src = this.applications[appName].url + '/#/' + innerRoute;
 
     return frame;
-  }
-
-  private onFrameLoad(frame: HTMLIFrameElement, appName: string): void {
-    try {
-      console.log('frame.contentWindow = ', frame.contentWindow);
-      // frame.contentWindow.addEventListener(
-      //   'hashchange',
-      //   (event) => {
-      //     console.log('The hash has changed!');
-      //   },
-      //   false
-      // );
-    } catch (error) {
-      // In some cases we're getting to CORS origin issue, for example when V9 redirects
-      // to a resubmission page (chrome-error://chromewebdata/ in chrome)
-      // the origin is not the same anymore, in such a case we'll redirect to the default page.
-      // Such a scenario can be found at EPV-2558 bug in JIRA or in the changeset for this check-in.
-    }
   }
 
   private appendFrame(frame: HTMLIFrameElement): void {

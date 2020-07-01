@@ -6,11 +6,12 @@ import { AppComponent } from './app.component';
 import { CommonModule } from 'src/common/common.module';
 import { Injector } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
+import { ShellService } from './services/shell.service';
 
 @NgModule({
   declarations: [AppComponent, SafePipe],
   imports: [BrowserModule, AppRoutingModule, CommonModule],
-  providers: [],
+  providers: [ShellService],
   bootstrap: [AppComponent], // Need To Be Comment When Use Shell For Dev In Dynamic Way
   entryComponents: [AppComponent],
 })
