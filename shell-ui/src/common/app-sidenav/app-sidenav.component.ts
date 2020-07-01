@@ -15,20 +15,21 @@ export interface MenuLink {
         <button (click)="toggleMenu()">Pin</button>
       </div>
       <div *ngIf="show" class="apps-selection">
-        <button
-          class="menu-app-btn"
+        <a
+          class="menu-link"
           *ngFor="let appMenu of appMenuLinks"
           (click)="navigateTo(appMenu)"
         >
           {{ appMenu.displayName }}
-        </button>
+        </a>
         <div class="app-app-sidenav">
-          <div
+          <a
+            class="menu-link"
             *ngFor="let miniAppMenu of miniAppMenuLinks"
             (click)="navigateTo(miniAppMenu)"
           >
             {{ miniAppMenu.displayName }}
-          </div>
+          </a>
         </div>
       </div>
     </div>
@@ -44,12 +45,23 @@ export interface MenuLink {
         background: #fff;
       }
       .cyberark-logo {
-        background: blue;
+        background: #000;
         padding: 10px;
         color: #fff;
+        border-bottom: 1px solid #fff;
       }
-      .menu-app-btn {
+      .menu-link {
         display: block;
+        color: #fff;
+        cursor: pointer;
+        padding: 5px;
+        background: #0011ff;
+      }
+      .menu-link:hover {
+        background: #007bff;
+      }
+      .app-app-sidenav {
+        border-top: 2px dashed #000;
       }
     `,
   ],
