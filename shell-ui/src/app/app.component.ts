@@ -20,23 +20,6 @@ declare let window: any;
         (click)="navigateTo($event)"
       >
       </app-sidenav>
-
-      <!-- div>
-      <iframe
-        *ngIf="selectedApp === 'mini-app1'"
-        class="full-page iframe-container"
-        src="http://localhost:4201/"
-        frameborder="0"
-        #miniApp1
-      ></iframe>
-      <iframe
-        *ngIf="selectedApp === 'mini-app2'"
-        class="full-page iframe-container"
-        src="http://localhost:4202/"
-        frameborder="0"
-        #miniApp2
-      ></iframe>
-    </div-->
       <div main id="apps-container" class="iframe-container full-page">
       </div>
     </div>
