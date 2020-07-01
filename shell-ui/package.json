@@ -7,7 +7,10 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "el-build": "npm run el-build-task && npm run el-package-task",
+    "el-build-task": "ng build --prod --output-hashing=none",
+    "el-package-task": "cat ./dist/shell-ui/{polyfills-es5,runtime-es5,main-es5}.js > ./dist/shell-ui.js"
   },
   "private": true,
   "dependencies": {
@@ -28,6 +31,8 @@
     "@angular/cli": "~9.1.3",
     "@angular/compiler-cli": "~9.1.3",
     "@angular/language-service": "~9.1.3",
+    "@webcomponents/webcomponentsjs": "2.4.3",
+    "@angular/elements": "^10.0.2",
     "@types/node": "^12.11.1",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",

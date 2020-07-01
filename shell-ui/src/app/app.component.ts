@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
 import { HostListener } from '@angular/core';
 import { APP_MENU_LINKS, MINI_APP_MENU_LINKS } from './menuLinks.const';
@@ -18,6 +18,9 @@ import { MenuLink } from 'src/common/app-sidenav/app-sidenav.component';
       </app-sidenav>
       <div main id="apps-container" class="iframe-container full-page">
         <router-outlet></router-outlet>
+
+        <!-- For Check Shell For Dev -->
+        <!-- <iframe [src]="url | safe" width="350px" height="600px"></iframe> -->
       </div>
     </div>
   `,
@@ -45,7 +48,9 @@ import { MenuLink } from 'src/common/app-sidenav/app-sidenav.component';
   ],
 })
 export class AppComponent implements AfterViewInit {
-  title = 'shell-ui';
+  @Input() title: string;
+  @Input() url: string;
+
   selectedApp = 'mini-app1';
   showMenu = true;
   appMenuLinks = APP_MENU_LINKS;
