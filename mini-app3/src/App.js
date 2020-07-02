@@ -6,7 +6,7 @@ function App() {
   return (
     <Router>
       <div>
-        <h3 class="title">React App</h3>
+        <h3 className="title">React App</h3>
         <Switch>
           <Route path="/first-page">
             <FirstPage />
