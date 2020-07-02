@@ -78,11 +78,6 @@ export class AppComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.loadAppByRoute();
-    window.addEventListener('hashchange', () => {
-      console.log('!!!hashchange!!!');
-
-      // this.loadAppByRoute.bind(this)
-    });
   }
 
   loadAppByRoute() {
@@ -147,8 +142,6 @@ export class AppComponent implements AfterViewInit {
 
   activeFrame(appName: string, selectedFrame: HTMLIFrameElement) {
     if (this.selectedApp !== appName) {
-
-      console.log('>>>>', this.getFramesList())
       this.getFramesList().forEach((frame) => {
         frame.classList.remove('current');
       });
@@ -164,13 +157,13 @@ export class AppComponent implements AfterViewInit {
   navigateTo(link: string): void {
     // Need to Update iFrame
     if (typeof link === 'string' && !!link && link !== '/') {
-      console.log(link);
       const appName = link.split('/')[0];
       const pathname = link.replace(appName, '');
       // this.getCurrentIframe().src = this.applications[appName].url + '/#/' + pathname;
 
       let frame = this.getFrameByName(appName);
       if (frame) {
+        console.log('>>>>', this.applications[appName].url + '/#/' + pathname)
         frame.contentWindow.location.replace(this.applications[appName].url + '/#/' + pathname)
       } else {
         frame = this.createAppFrame(appName, pathname);

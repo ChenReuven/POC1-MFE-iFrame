@@ -24,11 +24,11 @@ function sendNavConfig() {
       appName: 'mini-app1',
       routes: [{
         routerLink: 'first-component',
-        displayName: 'First page'
+        displayName: 'First page (Angular)'
       },
       {
         routerLink: 'second-component',
-        displayName: 'Second page'
+        displayName: 'Second page (Angular)'
       }]
     }
   }, '*');
