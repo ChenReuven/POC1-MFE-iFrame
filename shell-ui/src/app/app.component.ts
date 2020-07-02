@@ -67,6 +67,9 @@ export class AppComponent implements AfterViewInit {
     'mini-app2': {
       url: 'http://localhost:4202',
     },
+    'mini-app3': {
+      url: 'http://localhost:4203',
+    },
   };
   @ViewChild('miniApp1') miniApp1Ref: ElementRef;
   @ViewChild('miniApp2') miniApp2Ref: ElementRef;

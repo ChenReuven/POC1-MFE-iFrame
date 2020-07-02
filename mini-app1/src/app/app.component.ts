@@ -8,6 +8,7 @@ import { HostListener } from '@angular/core';
     <div>
       <div class="main-layout">
         <!--The content below is only a placeholder and can be replaced.-->
+        <h3 class="title">Angular App</h3>
         <router-outlet></router-outlet>
       </div>
     </div>
@@ -16,6 +17,11 @@ import { HostListener } from '@angular/core';
     `
       .main-layout {
         margin-left: 15%;
+      }
+
+      .title {
+        background: red;
+        color: #fff;
       }
     `,
   ],
