@@ -20,7 +20,7 @@ export interface MenuLink {
         <a
           class="menu-link"
           *ngFor="let appMenu of appMenuLinks"
-          (click)="navigateTo(appMenu)"
+          (click)="navigateTo(appMenu.path)"
         >
           {{ appMenu.displayName }}
         </a>

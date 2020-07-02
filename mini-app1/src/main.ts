@@ -18,19 +18,29 @@ export interface MenuLink {
 declare const window: any;
 
 // todo: add lifecycle
-window.parent.postMessage({
-  type: 'UPDATE_NAVIGATION', payload: {
-    appName: 'mini-app1',
-    routes: [{
-      routerLink: 'first-component',
-      displayName: 'First page'
-    },
-    {
-      routerLink: 'second-component',
-      displayName: 'Second page'
-    }]
+function sendNavConfig() {
+  window.parent.postMessage({
+    type: 'UPDATE_NAVIGATION', payload: {
+      appName: 'mini-app1',
+      routes: [{
+        routerLink: 'first-component',
+        displayName: 'First page'
+      },
+      {
+        routerLink: 'second-component',
+        displayName: 'Second page'
+      }]
+    }
+  }, '*');
+}
+sendNavConfig();
+window.addEventListener('message', ({ data: { type } }) => {
+  switch (type) {
+    case 'RESUME':
+      sendNavConfig();
+      break;
   }
-}, '*');
+})
 
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));

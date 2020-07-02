@@ -71,7 +71,7 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('miniApp1') miniApp1Ref: ElementRef;
   @ViewChild('miniApp2') miniApp2Ref: ElementRef;
 
-  constructor(public shellService: ShellService) {}
+  constructor(public shellService: ShellService) { }
 
   ngAfterViewInit(): void {
     this.loadAppByRoute();
@@ -104,12 +104,14 @@ export class AppComponent implements AfterViewInit {
     frame.setAttribute('data-app-name', appName);
     frame.frameBorder = '0';
     frame.classList.add('app-frame');
+    frame.classList.add('current');
 
     // if first app
     if (!this.selectedApp) {
       this.selectedApp = appName;
     }
     this.appendFrame(frame);
+    // frame.src = this.applications[appName].url + '/' + innerRoute;
     frame.src = this.applications[appName].url + '/#/' + innerRoute;
 
     return frame;
@@ -127,19 +129,50 @@ export class AppComponent implements AfterViewInit {
     return document.querySelector('#apps-container') as HTMLElement;
   }
 
-  private getCurrentIframe(): HTMLFrameElement {
+  private getCurrentIframe(): HTMLIFrameElement {
     // todo: shoule fix
-    return document.querySelector('.app-frame') as HTMLFrameElement;
+    return document.querySelector('.app-frame .current') as HTMLIFrameElement;
+  }
+
+  private getFramesList(): any {
+    return document.querySelectorAll('.app-frame') || [];
+  }
+
+  private getFrameByName(appName: string): HTMLIFrameElement {
+    return <HTMLIFrameElement>document.querySelector(`#frame-${appName}`);
+  }
+
+  activeFrame(appName: string, selectedFrame: HTMLIFrameElement) {
+    if (this.selectedApp !== appName) {
+
+      console.log('>>>>', this.getFramesList())
+      this.getFramesList().forEach((frame) => {
+        frame.classList.remove('current');
+      });
+      this.selectedApp = appName;
+      setTimeout(() => {
+        selectedFrame.classList.add('current');
+      })
+
+      selectedFrame.contentWindow.postMessage({ type: 'RESUME' }, '*');
+    }
   }
 
   navigateTo(link: string): void {
     // Need to Update iFrame
-    if (typeof link === 'string' && !!link) {
+    if (typeof link === 'string' && !!link && link !== '/') {
       console.log(link);
       const appName = link.split('/')[0];
       const pathname = link.replace(appName, '');
-      this.getCurrentIframe().src = this.applications[appName].url + '/#/' + pathname;
+      // this.getCurrentIframe().src = this.applications[appName].url + '/#/' + pathname;
+
+      let frame = this.getFrameByName(appName);
+      if (frame) {
+        frame.contentWindow.location.replace(this.applications[appName].url + '/#/' + pathname)
+      } else {
+        frame = this.createAppFrame(appName, pathname);
+      }
+      this.activeFrame(appName, frame);
     }
-    console.log('000000000');
   }
 }
