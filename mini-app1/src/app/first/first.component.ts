@@ -5,20 +5,24 @@ declare const window: any;
 @Component({
   selector: 'app-first',
   template: `
-    <p>
-      first works!
-      <button (click)="goToSecond()">Second Component</button>
-    </p>
+    <div>
+      <h1>First Page</h1>
+      <button (click)="goToSecond()">Go To Second Page</button>
+    </div>
   `,
   styles: [],
 })
 export class FirstComponent implements OnInit {
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
-    window.parent.postMessage({
-      type: 'UPDATE_SHELL_URL', payload: 'mini-app1/first-component'
-    }, '*');
+    window.parent.postMessage(
+      {
+        type: 'UPDATE_SHELL_URL',
+        payload: 'mini-app1/first-component',
+      },
+      '*'
+    );
   }
 
   goToSecond() {
