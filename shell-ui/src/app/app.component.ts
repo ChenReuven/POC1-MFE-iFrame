@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
 import { HostListener } from '@angular/core';
 import { APP_MENU_LINKS, MINI_APP_MENU_LINKS } from './menuLinks.const';
@@ -21,6 +21,10 @@ declare let window: any;
       >
       </app-sidenav>
       <div main id="apps-container" class="iframe-container full-page">
+        <router-outlet></router-outlet>
+
+        <!-- For Check Shell For Dev -->
+        <!-- <iframe [src]="url | safe" width="350px" height="600px"></iframe> -->
       </div>
     </div>
   `,
@@ -48,8 +52,10 @@ declare let window: any;
   ],
 })
 export class AppComponent implements AfterViewInit {
-  title = 'shell-ui';
-  selectedApp;
+  @Input() title: string;
+  @Input() url: string;
+
+  selectedApp = 'mini-app1';
   showMenu = true;
   appMenuLinks = APP_MENU_LINKS;
   miniAppMenuLinks = MINI_APP_MENU_LINKS;
@@ -65,18 +71,15 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('miniApp1') miniApp1Ref: ElementRef;
   @ViewChild('miniApp2') miniApp2Ref: ElementRef;
 
-  constructor(public shellService: ShellService) {
-
-  }
+  constructor(public shellService: ShellService) {}
 
   ngAfterViewInit(): void {
     this.loadAppByRoute();
     window.addEventListener('hashchange', () => {
-
       console.log('!!!hashchange!!!');
 
       // this.loadAppByRoute.bind(this)
-    })
+    });
   }
 
   loadAppByRoute() {
