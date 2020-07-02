@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Second Page</h1>
+    <h3>Second Page</h3>
     <router-link class="nav-link" to="/first-page"
       >Go To First Page</router-link
     >
