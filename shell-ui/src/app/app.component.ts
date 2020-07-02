@@ -67,6 +67,9 @@ export class AppComponent implements AfterViewInit {
     'mini-app2': {
       url: 'http://localhost:4202',
     },
+    'mini-app3': {
+      url: 'http://localhost:4203',
+    },
   };
   @ViewChild('miniApp1') miniApp1Ref: ElementRef;
   @ViewChild('miniApp2') miniApp2Ref: ElementRef;
@@ -138,7 +141,8 @@ export class AppComponent implements AfterViewInit {
       console.log(link);
       const appName = link.split('/')[0];
       const pathname = link.replace(appName, '');
-      this.getCurrentIframe().src = this.applications[appName].url + '/#/' + pathname;
+      this.getCurrentIframe().src =
+        this.applications[appName].url + '/#/' + pathname;
     }
     console.log('000000000');
   }
