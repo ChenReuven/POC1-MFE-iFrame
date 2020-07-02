@@ -107,7 +107,6 @@ export class AppComponent implements AfterViewInit {
       this.selectedApp = appName;
     }
     this.appendFrame(frame);
-    // frame.src = this.applications[appName].url + innerRoute;
     frame.src = this.applications[appName].url + '/#/' + innerRoute;
 
     return frame;
@@ -125,8 +124,19 @@ export class AppComponent implements AfterViewInit {
     return document.querySelector('#apps-container') as HTMLElement;
   }
 
-  navigateTo(link: MenuLink): void {
+  private getCurrentIframe(): HTMLFrameElement {
+    // todo: shoule fix
+    return document.querySelector('.app-frame') as HTMLFrameElement;
+  }
+
+  navigateTo(link: string): void {
     // Need to Update iFrame
-    console.log(link);
+    if (typeof link === 'string' && !!link) {
+      console.log(link);
+      const appName = link.split('/')[0];
+      const pathname = link.replace(appName, '');
+      this.getCurrentIframe().src = this.applications[appName].url + '/#/' + pathname;
+    }
+    console.log('000000000');
   }
 }

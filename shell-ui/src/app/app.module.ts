@@ -4,10 +4,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CommonModule } from 'src/common/common.module';
 import { ShellService } from './services/shell.service';
+import { FakeComponent } from './components/fake/fake.component';
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [BrowserModule, CommonModule],
+  declarations: [AppComponent, FakeComponent],
+  imports: [BrowserModule, CommonModule, AppRoutingModule],
   providers: [ShellService],
   bootstrap: [AppComponent],
 })

@@ -1,9 +1,11 @@
+import { ShellService } from './../../app/services/shell.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 export interface MenuLink {
-  path: string;
+  path?: string;
   name: string;
   displayName?: string;
+  routerLink?: string[]
 }
 
 @Component({
@@ -25,8 +27,10 @@ export interface MenuLink {
         <div class="app-app-sidenav">
           <a
             class="menu-link"
-            *ngFor="let miniAppMenu of miniAppMenuLinks"
-            (click)="navigateTo(miniAppMenu)"
+            *ngFor="let miniAppMenu of shellService.links$ | async"
+            (click)="navigateTo(miniAppMenu.routerLink)"
+            [routerLink]="miniAppMenu.routerLink"
+            [routerLinkActive]="['current']"
           >
             {{ miniAppMenu.displayName }}
           </a>
@@ -63,6 +67,9 @@ export interface MenuLink {
       .app-app-sidenav {
         border-top: 2px dashed #000;
       }
+      .current {
+        color: #8bc34a;
+      }
     `,
   ],
 })
@@ -74,9 +81,9 @@ export class AppSidenavComponent implements OnInit {
   @Output() toggle = new EventEmitter<string>();
   @Output() click = new EventEmitter<MenuLink>();
 
-  constructor() {}
+  constructor(public shellService: ShellService) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   navigateTo(link: MenuLink) {
     this.click.emit(link);

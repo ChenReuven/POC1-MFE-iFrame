@@ -1,5 +1,6 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+declare const window: any;
 
 @Component({
   selector: 'app-first',
@@ -12,9 +13,13 @@ import { Component, OnInit } from '@angular/core';
   styles: [],
 })
 export class FirstComponent implements OnInit {
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    window.parent.postMessage({
+      type: 'UPDATE_SHELL_URL', payload: 'mini-app1/first-component'
+    }, '*');
+  }
 
   goToSecond() {
     this.router.navigate(['second-component']);

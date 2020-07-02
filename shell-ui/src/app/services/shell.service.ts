@@ -1,4 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { FakeComponent } from '../components/fake/fake.component';
+import { BehaviorSubject } from 'rxjs';
 
 declare let window: any;
 
@@ -6,9 +10,16 @@ declare let window: any;
   providedIn: 'root'
 })
 export class ShellService {
+  private readonly _links = new BehaviorSubject<any[]>([]);
+  readonly links$ = this._links.asObservable();
+
   apps: any = {};
   showMenu: boolean = true;
-  constructor() { }
+  constructor(
+    private ngZone: NgZone,
+    private location: Location,
+    private router: Router
+  ) { }
 
   addFrame(appName, frame) {
     this.apps[appName] = frame;
@@ -26,14 +37,21 @@ export class ShellService {
       case 'TOGGLE_MENU':
         this.showMenu = !this.showMenu;
         break;
+      case 'UPDATE_SHELL_URL':
+        this.ngZone.run(() => {
+          // this.router.navigateByUrl(payload);
+          this.location.replaceState(payload);
+        });
+        break;
       case 'UPDATE_NAVIGATION':
-        console.log(payload);
+        this._links.next(payload.routes.map(r => {
+          return {
+            ...r,
+            routerLink: `${payload.appName}/${r.routerLink}`,
+          }
+        }));
         break;
     }
-  }
-
-  sendMessage(appName, message) {
-
   }
 
   addListenerToApp(appName, frame) {

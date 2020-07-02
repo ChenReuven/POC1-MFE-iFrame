@@ -21,12 +21,12 @@ export const APP_MENU_LINKS: MenuLink[] = [
 export const MINI_APP_MENU_LINKS: MenuLink[] = [
   {
     name: 'account',
-    path: '/account',
+    routerLink: ['mini-app1', 'first-component'],
     displayName: 'Account',
   },
   {
     name: 'profile',
-    path: '/profile',
+    routerLink: ['mini-app2'],
     displayName: 'Profile',
   },
 ];
