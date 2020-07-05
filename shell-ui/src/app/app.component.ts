@@ -1,10 +1,16 @@
 import {
-  Component, OnInit, AfterViewInit, Input,
-  HostListener, ViewChild, ElementRef
+  Component,
+  OnInit,
+  AfterViewInit,
+  Input,
+  HostListener,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { APP_MENU_LINKS, MINI_APP_MENU_LINKS } from './menuLinks.const';
 import { ShellService } from './services/shell.service';
 import { Router } from '@angular/router';
+import { getParameterByName } from './utils';
 
 declare let window: any;
 
@@ -35,8 +41,7 @@ declare let window: any;
     }
     .full-page {
       height: 100vh;
-      margin: 0;
-      padding: 0;
+      width: 80%;
       display: inline-block;
     }
     .iframe-container {
@@ -46,10 +51,13 @@ declare let window: any;
       display: flex;
       flex-direction: column;
     }
+    .app-frame {
+      width: 100%;
+    }
     `,
   ],
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements OnInit {
   @Input() title: string;
   @Input() url: string;
 
@@ -57,8 +65,10 @@ export class AppComponent implements AfterViewInit {
   showMenu = true;
   appMenuLinks = APP_MENU_LINKS;
   miniAppMenuLinks = MINI_APP_MENU_LINKS;
+  isDevMode = false;
+  devUrlHost: string;
 
-  applications = {
+  applications: any = {
     'mini-app1': {
       url: 'http://localhost:4201',
     },
@@ -69,8 +79,6 @@ export class AppComponent implements AfterViewInit {
       url: 'http://localhost:4203',
     },
   };
-  @ViewChild('miniApp1') miniApp1Ref: ElementRef;
-  @ViewChild('miniApp2') miniApp2Ref: ElementRef;
 
   @HostListener('window:popstate', ['$event']) onPopstate(event) {
     const [empty, appName, ...pathname] = window.location.pathname.split('/');
@@ -79,8 +87,27 @@ export class AppComponent implements AfterViewInit {
 
   constructor(public shellService: ShellService, private router: Router) { }
 
-  ngAfterViewInit(): void {
-    this.loadAppByRoute();
+  ngOnInit(): void {
+    const isDevMode = getParameterByName('devMode');
+    if (isDevMode) {
+      const devUrlHost = getParameterByName('devUrlHost');
+      this.devUrlHost = devUrlHost || 'http://localhost:3000/';
+      this.isDevMode = true;
+      this.selectedApp = 'dev-app';
+      this.loadDevModeApp();
+    } else {
+      this.loadAppByRoute();
+    }
+  }
+
+  loadDevModeApp() {
+    this.applications = {
+      'dev-app': {
+        url: this.devUrlHost,
+      },
+    };
+    const frame = this.createAppFrame('dev-app', '/');
+    this.shellService.addListenerToApp('dev-app', frame);
   }
 
   loadAppByRoute() {
@@ -132,11 +159,6 @@ export class AppComponent implements AfterViewInit {
     return document.querySelector('#apps-container') as HTMLElement;
   }
 
-  private getCurrentIframe(): HTMLIFrameElement {
-    // todo: shoule fix
-    return document.querySelector('.app-frame .current') as HTMLIFrameElement;
-  }
-
   private getFramesList(): any {
     return document.querySelectorAll('.app-frame') || [];
   }
@@ -167,9 +189,11 @@ export class AppComponent implements AfterViewInit {
 
       let frame = this.getFrameByName(appName);
       if (frame) {
-        console.log('>>>>', this.applications[appName].url + '/#/' + pathname)
+        console.log('>>>>', this.applications[appName].url + '/#/' + pathname);
         // this.getCurrentIframe().src = this.applications[appName].url + '/#/' + pathname;
-        frame.contentWindow.location.replace(this.applications[appName].url + '/#/' + pathname)
+        frame.contentWindow.location.replace(
+          this.applications[appName].url + '/#/' + pathname
+        );
       } else {
         frame = this.createAppFrame(appName, pathname);
       }

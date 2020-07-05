@@ -16,7 +16,6 @@ import { HostListener } from '@angular/core';
   styles: [
     `
       .main-layout {
-        margin-left: 15%;
       }
 
       .title {
@@ -40,5 +39,5 @@ export class AppComponent {
     }
   }
 
-  constructor() { }
+  constructor() {}
 }
