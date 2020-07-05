@@ -40,8 +40,7 @@ declare let window: any;
     }
     .full-page {
       height: 100vh;
-      margin: 0;
-      padding: 0;
+      width: 80%;
       display: inline-block;
     }
     .iframe-container {
@@ -50,6 +49,9 @@ declare let window: any;
     .apps-selection{
       display: flex;
       flex-direction: column;
+    }
+    .app-frame {
+      width: 100%;
     }
     `,
   ],
