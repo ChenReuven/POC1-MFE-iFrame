@@ -90,6 +90,7 @@ export class AppSidenavComponent implements OnInit {
   }
 
   toggleMenu() {
+    console.log('TOGGLE_MENU 1')
     this.toggle.emit('');
   }
 }
