@@ -71,7 +71,6 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('miniApp1') miniApp1Ref: ElementRef;
   @ViewChild('miniApp2') miniApp2Ref: ElementRef;
 
-
   @HostListener('window:popstate', ['$event']) onPopstate(event) {
     const [empty, appName, ...pathname] = window.location.pathname.split('/');
     this.shellService.chanageNavBarFromCache(appName);
@@ -151,7 +150,7 @@ export class AppComponent implements AfterViewInit {
       this.selectedApp = appName;
       setTimeout(() => {
         selectedFrame.classList.add('current');
-      })
+      });
 
       selectedFrame.contentWindow.postMessage({ type: 'RESUME' }, '*');
     }
@@ -167,7 +166,6 @@ export class AppComponent implements AfterViewInit {
       if (frame) {
         console.log('>>>>', this.applications[appName].url + '/#/' + pathname)
         // this.getCurrentIframe().src = this.applications[appName].url + '/#/' + pathname;
-
         frame.contentWindow.location.replace(this.applications[appName].url + '/#/' + pathname)
       } else {
         frame = this.createAppFrame(appName, pathname);
