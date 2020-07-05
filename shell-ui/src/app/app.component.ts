@@ -4,6 +4,7 @@ import {
 } from '@angular/core';
 import { APP_MENU_LINKS, MINI_APP_MENU_LINKS } from './menuLinks.const';
 import { ShellService } from './services/shell.service';
+import { Router } from '@angular/router';
 
 declare let window: any;
 
@@ -76,17 +77,19 @@ export class AppComponent implements AfterViewInit {
     this.shellService.chanageNavBarFromCache(appName);
   }
 
-  constructor(public shellService: ShellService) { }
+  constructor(public shellService: ShellService, private router: Router) { }
 
   ngAfterViewInit(): void {
     this.loadAppByRoute();
   }
 
   loadAppByRoute() {
-    const [empty, appName, ...pathname] = window.location.pathname.split('/');
+    const [, appName, ...pathname] = window.location.pathname.split('/');
     if (!!appName) {
-      const frame = this.createAppFrame(appName, pathname.join('/'));
-      this.shellService.addListenerToApp(appName, frame);
+      this.createAppFrame(appName, pathname.join('/'));
+    } else {
+      this.router.navigateByUrl('/mini-app1/first-component');
+      this.createAppFrame('mini-app1', '/first-component');
     }
   }
 
@@ -113,7 +116,7 @@ export class AppComponent implements AfterViewInit {
     this.appendFrame(frame);
     // frame.src = this.applications[appName].url + '/' + innerRoute;
     frame.src = this.applications[appName].url + '/#/' + innerRoute;
-
+    this.shellService.addListenerToApp(appName, frame);
     return frame;
   }
 
