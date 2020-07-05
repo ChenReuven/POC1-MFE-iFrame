@@ -1,18 +1,15 @@
-import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  Input,
+  HostListener,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { APP_MENU_LINKS, MINI_APP_MENU_LINKS } from './menuLinks.const';
 import { ShellService } from './services/shell.service';
-
-function getParameterByName(name, url?: string) {
-  if (!url) url = window.location.href;
-  name = name.replace(/[\[\]]/g, '\\$&');
-  var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-    results = regex.exec(url);
-  if (!results) return null;
-  if (!results[2]) return '';
-  return decodeURIComponent(results[2].replace(/\+/g, ' '));
-}
+import { getParameterByName } from './utils';
 
 declare let window: any;
 
@@ -31,9 +28,6 @@ declare let window: any;
       </app-sidenav>
       <div main id="apps-container" class="iframe-container full-page">
         <router-outlet></router-outlet>
-
-        <!-- For Check Shell For Dev -->
-        <!-- <iframe [src]="url | safe" width="350px" height="600px"></iframe> -->
       </div>
     </div>
   `,
@@ -83,10 +77,10 @@ export class AppComponent implements OnInit {
     },
   };
 
-  constructor(
-    public shellService: ShellService,
-    private route: ActivatedRoute
-  ) {}
+  @HostListener('window:popstate', ['$event']) onPopstate(event) {
+    const [empty, appName, ...pathname] = window.location.pathname.split('/');
+    this.shellService.chanageNavBarFromCache(appName);
+  }
 
   ngOnInit(): void {
     const isDevMode = getParameterByName('devMode');
@@ -100,6 +94,8 @@ export class AppComponent implements OnInit {
       this.loadAppByRoute();
     }
   }
+
+  constructor(public shellService: ShellService) {}
 
   loadDevModeApp() {
     this.applications = {
@@ -185,11 +181,11 @@ export class AppComponent implements OnInit {
     if (typeof link === 'string' && !!link && link !== '/') {
       const appName = link.split('/')[0];
       const pathname = link.replace(appName, '');
-      // this.getCurrentIframe().src = this.applications[appName].url + '/#/' + pathname;
 
       let frame = this.getFrameByName(appName);
       if (frame) {
         console.log('>>>>', this.applications[appName].url + '/#/' + pathname);
+        // this.getCurrentIframe().src = this.applications[appName].url + '/#/' + pathname;
         frame.contentWindow.location.replace(
           this.applications[appName].url + '/#/' + pathname
         );

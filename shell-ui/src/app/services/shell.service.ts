@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { FakeComponent } from '../components/fake/fake.component';
@@ -14,6 +14,7 @@ export class ShellService {
   readonly links$ = this._links.asObservable();
 
   apps: any = {};
+  appsNav: any = {};
   showMenu: boolean = true;
   constructor(
     private ngZone: NgZone,
@@ -40,18 +41,25 @@ export class ShellService {
       case 'UPDATE_SHELL_URL':
         this.ngZone.run(() => {
           // this.router.navigateByUrl(payload);
-          this.location.replaceState(payload);
+          // this.location.replaceState(payload);
+          this.router.navigateByUrl(payload)
         });
         break;
       case 'UPDATE_NAVIGATION':
-        this._links.next(payload.routes.map(r => {
+        const routes = payload.routes.map(r => {
           return {
             ...r,
             routerLink: `${payload.appName}/${r.routerLink}`,
           }
-        }));
+        })
+        this.appsNav[payload.appName] = JSON.parse(JSON.stringify(routes));
+        this._links.next(routes);
         break;
     }
+  }
+
+  chanageNavBarFromCache(appName) {
+    this._links.next(this.appsNav[appName]);
   }
 
   addListenerToApp(appName, frame) {
