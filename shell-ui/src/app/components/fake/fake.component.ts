@@ -3,9 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-fake',
   template: `
-    <p>
-      fake works!
-    </p>
+  <span></span>
   `,
   styles: [
   ]
