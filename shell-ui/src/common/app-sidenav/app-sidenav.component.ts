@@ -5,7 +5,7 @@ export interface MenuLink {
   path?: string;
   name: string;
   displayName?: string;
-  routerLink?: string[]
+  routerLink?: string[];
 }
 
 @Component({
@@ -63,12 +63,19 @@ export interface MenuLink {
       }
       .menu-link:hover {
         background: #007bff;
+        color: white;
       }
       .app-app-sidenav {
         border-top: 2px dashed #000;
       }
       .current {
         color: #8bc34a;
+      }
+
+      .current {
+        background: yellow;
+        color: red;
+        font-weight: bold;
       }
     `,
   ],
@@ -81,9 +88,9 @@ export class AppSidenavComponent implements OnInit {
   @Output() toggle = new EventEmitter<string>();
   @Output() click = new EventEmitter<MenuLink>();
 
-  constructor(public shellService: ShellService) { }
+  constructor(public shellService: ShellService) {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   navigateTo(link: MenuLink) {
     this.click.emit(link);
