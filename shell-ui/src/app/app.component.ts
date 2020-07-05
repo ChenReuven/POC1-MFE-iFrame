@@ -1,9 +1,18 @@
+import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
-import { ViewChild, ElementRef } from '@angular/core';
-import { HostListener } from '@angular/core';
 import { APP_MENU_LINKS, MINI_APP_MENU_LINKS } from './menuLinks.const';
-import { MenuLink } from 'src/common/app-sidenav/app-sidenav.component';
 import { ShellService } from './services/shell.service';
+
+function getParameterByName(name, url?: string) {
+  if (!url) url = window.location.href;
+  name = name.replace(/[\[\]]/g, '\\$&');
+  var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+    results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
 
 declare let window: any;
 
@@ -51,7 +60,7 @@ declare let window: any;
     `,
   ],
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements OnInit {
   @Input() title: string;
   @Input() url: string;
 
@@ -59,8 +68,10 @@ export class AppComponent implements AfterViewInit {
   showMenu = true;
   appMenuLinks = APP_MENU_LINKS;
   miniAppMenuLinks = MINI_APP_MENU_LINKS;
+  isDevMode = false;
+  devUrlHost: string;
 
-  applications = {
+  applications: any = {
     'mini-app1': {
       url: 'http://localhost:4201',
     },
@@ -71,17 +82,37 @@ export class AppComponent implements AfterViewInit {
       url: 'http://localhost:4203',
     },
   };
-  @ViewChild('miniApp1') miniApp1Ref: ElementRef;
-  @ViewChild('miniApp2') miniApp2Ref: ElementRef;
 
-  constructor(public shellService: ShellService) {}
+  constructor(
+    public shellService: ShellService,
+    private route: ActivatedRoute
+  ) {}
 
-  ngAfterViewInit(): void {
-    this.loadAppByRoute();
+  ngOnInit(): void {
+    const isDevMode = getParameterByName('devMode');
+    if (isDevMode) {
+      const devUrlHost = getParameterByName('devUrlHost');
+      this.devUrlHost = devUrlHost || 'http://localhost:3000/';
+      this.isDevMode = true;
+      this.selectedApp = 'dev-app';
+      this.loadDevModeApp();
+    } else {
+      this.loadAppByRoute();
+    }
+  }
+
+  loadDevModeApp() {
+    this.applications = {
+      'dev-app': {
+        url: this.devUrlHost,
+      },
+    };
+    const frame = this.createAppFrame('dev-app', '/');
+    this.shellService.addListenerToApp('dev-app', frame);
   }
 
   loadAppByRoute() {
-    const [empty, appName, ...pathname] = window.location.pathname.split('/');
+    const [, appName, ...pathname] = window.location.pathname.split('/');
     if (!!appName) {
       const frame = this.createAppFrame(appName, pathname.join('/'));
       this.shellService.addListenerToApp(appName, frame);
@@ -125,11 +156,6 @@ export class AppComponent implements AfterViewInit {
 
   private getContainer(): HTMLElement {
     return document.querySelector('#apps-container') as HTMLElement;
-  }
-
-  private getCurrentIframe(): HTMLIFrameElement {
-    // todo: shoule fix
-    return document.querySelector('.app-frame .current') as HTMLIFrameElement;
   }
 
   private getFramesList(): any {
