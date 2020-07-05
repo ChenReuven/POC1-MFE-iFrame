@@ -23,7 +23,7 @@ declare let window: any;
         [show]="shellService.showMenu"
         [appMenuLinks]="appMenuLinks"
         [miniAppMenuLinks]="miniAppMenuLinks"
-        (toggle)="showMenu = !showMenu"
+        (toggle)="toggleMenu()"
         (click)="navigateTo($event)"
       >
       </app-sidenav>
@@ -123,6 +123,7 @@ export class AppComponent implements OnInit {
   }
 
   toggleMenu() {
+    console.log('TOGGLE_MENU 2')
     this.shellService.dispatch(<any>{ data: { type: 'TOGGLE_MENU' } });
   }
 
