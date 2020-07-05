@@ -81,8 +81,10 @@ export class AppComponent implements OnInit {
   };
 
   @HostListener('window:popstate', ['$event']) onPopstate(event) {
-    const [empty, appName, ...pathname] = window.location.pathname.split('/');
+    const [, appName, ...pathname] = window.location.pathname.split('/');
     this.shellService.chanageNavBarFromCache(appName);
+    const url = appName + '/' + (pathname.join('/'))
+    this.navigateTo(url);
   }
 
   constructor(public shellService: ShellService, private router: Router) { }
