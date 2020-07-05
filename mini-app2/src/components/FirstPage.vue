@@ -8,16 +8,17 @@
 <script>
 export default {
   name: "FirstPage",
-  props: {}
+  props: {},
+  created: function() {
+    window.parent.postMessage(
+      {
+        type: "UPDATE_SHELL_URL",
+        payload: "mini-app2/first-page"
+      },
+      "*"
+    );
+  }
 };
-
-window.parent.postMessage(
-  {
-    type: "UPDATE_SHELL_URL",
-    payload: "mini-app2/first-page"
-  },
-  "*"
-);
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

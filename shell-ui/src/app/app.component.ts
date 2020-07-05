@@ -185,14 +185,15 @@ export class AppComponent implements OnInit {
     // Need to Update iFrame
     if (typeof link === 'string' && !!link && link !== '/') {
       const appName = link.split('/')[0];
-      const pathname = link.replace(appName, '');
+      let pathname = link.replace(appName, '');
 
       let frame = this.getFrameByName(appName);
       if (frame) {
-        console.log('>>>>', this.applications[appName].url + '/#/' + pathname);
-        // this.getCurrentIframe().src = this.applications[appName].url + '/#/' + pathname;
+        if (pathname.indexOf('/') !== 0) {
+          pathname = `/${pathname}`;
+        }
         frame.contentWindow.location.replace(
-          this.applications[appName].url + '/#/' + pathname
+          this.applications[appName].url + '/#' + pathname
         );
       } else {
         frame = this.createAppFrame(appName, pathname);

@@ -33,10 +33,10 @@ Vue.use(Router)
 
 Vue.config.productionTip = false;
 const router = new Router({
+  mode: "hash",
   routes: [{
     path: '/',
-    name: 'first-page',
-    component: FirstPage
+    redirect: '/first-page'
   }, {
     path: '/first-page',
     name: 'first-page',

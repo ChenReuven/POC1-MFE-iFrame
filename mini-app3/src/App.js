@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link, HashRouter } from "react-router-dom";
 
 
 
@@ -32,20 +32,22 @@ window.addEventListener('message', ({ data: { type } }) => {
 function App() {
   return (
     <Router>
-      <div>
-        <h3 className="title">React App</h3>
-        <Switch>
-          <Route path="/first-page">
-            <FirstPage />
-          </Route>
-          <Route path="/second-page">
-            <SecondPage />
-          </Route>
-          <Route path="/">
-            <FirstPage />
-          </Route>
-        </Switch>
-      </div>
+      <HashRouter>
+        <div>
+          <h3 className="title">React App</h3>
+          <Switch>
+            <Route path="/first-page">
+              <FirstPage />
+            </Route>
+            <Route path="/second-page">
+              <SecondPage />
+            </Route>
+            <Route path="/">
+              <FirstPage />
+            </Route>
+          </Switch>
+        </div>
+      </HashRouter>
     </Router>
   );
 }
