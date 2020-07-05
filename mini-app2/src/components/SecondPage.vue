@@ -2,6 +2,7 @@
   <div>
     <h3>Second Page</h3>
     <router-link class="nav-link" to="/first-page">Go To First Page</router-link>
+    <button v-on:click="raiseAlert">Press here for alert</button>
   </div>
 </template>
 
@@ -17,6 +18,17 @@ export default {
       },
       "*"
     );
+  },
+  methods: {
+    raiseAlert: () => {
+      window.parent.postMessage(
+        {
+          type: "SHELL_RAISE_ALERT",
+          payload: "Vue - Alert From Mini App 2 - Second Component"
+        },
+        "*"
+      );
+    }
   }
 };
 </script>

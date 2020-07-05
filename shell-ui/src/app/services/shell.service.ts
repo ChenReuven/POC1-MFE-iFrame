@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 declare let window: any;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ShellService {
   private readonly _links = new BehaviorSubject<any[]>([]);
@@ -20,7 +20,7 @@ export class ShellService {
     private ngZone: NgZone,
     private location: Location,
     private router: Router
-  ) { }
+  ) {}
 
   addFrame(appName, frame) {
     this.apps[appName] = frame;
@@ -42,18 +42,21 @@ export class ShellService {
         this.ngZone.run(() => {
           // this.router.navigateByUrl(payload);
           // this.location.replaceState(payload);
-          this.router.navigateByUrl(payload)
+          this.router.navigateByUrl(payload);
         });
         break;
       case 'UPDATE_NAVIGATION':
-        const routes = payload.routes.map(r => {
+        const routes = payload.routes.map((r) => {
           return {
             ...r,
             routerLink: `${payload.appName}/${r.routerLink}`,
-          }
-        })
+          };
+        });
         this.appsNav[payload.appName] = JSON.parse(JSON.stringify(routes));
         this._links.next(routes);
+        break;
+      case 'SHELL_RAISE_ALERT':
+        alert(payload);
         break;
     }
   }
@@ -64,6 +67,6 @@ export class ShellService {
 
   addListenerToApp(appName, frame) {
     this.addFrame(appName, frame);
-    window.addEventListener('message', this.dispatch.bind(this))
+    window.addEventListener('message', this.dispatch.bind(this));
   }
 }

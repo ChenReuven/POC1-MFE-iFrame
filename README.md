@@ -24,10 +24,10 @@ This iFrame POC 3 is:
   - In Developer Machine with IndexShellDev.html
     - Part of the CI, the Shell UI Web Component will build and deploy to some specific bucket (with versioning)
 
-2. <b>Shell UI - Chrome Extension</b>
+2. <b>Shell UI - Browser Extension (Check From Security POV)</b>
 
 - Idea:
-  - Create a chrome extension ONLY for developers that will enable/disable it on production env.
+  - Create a browser extension ONLY for developers that will enable/disable it on production env.
 - How:
   - The extension will Redirect Requests and change Response and Headers on Production Env
   - Can also hold Auth cookies

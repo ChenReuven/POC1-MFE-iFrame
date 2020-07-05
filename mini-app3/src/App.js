@@ -80,12 +80,23 @@ function SecondPage() {
       },
       "*"
     );
-
   });
+
+  function handleClick(e) {
+    e.preventDefault();
+    window.parent.postMessage(
+      {
+        type: "SHELL_RAISE_ALERT",
+        payload: "React - Raise Alert"
+      },
+      "*"
+    );
+  }
   return (
     <div>
       <h2>Second Page</h2>
       <Link to="/first-page">Go To First Page</Link>
+      <button onClick={handleClick}>Press For Alert</button>
     </div>
   );
 }

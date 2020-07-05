@@ -7,6 +7,7 @@ declare const window: any;
   template: `
     <div>
       <h1>Second Page</h1>
+      <button (click)="raiseAlert()">Press For Alert</button>
       <button (click)="goToFirst()">Go To First Page</button>
     </div>
   `,
@@ -20,6 +21,16 @@ export class SecondComponent implements OnInit {
       {
         type: 'UPDATE_SHELL_URL',
         payload: 'mini-app1/second-component',
+      },
+      '*'
+    );
+  }
+
+  raiseAlert(): void {
+    window.parent.postMessage(
+      {
+        type: 'SHELL_RAISE_ALERT',
+        payload: 'Angular - Alert From Mini App 1 - Second Component',
       },
       '*'
     );
