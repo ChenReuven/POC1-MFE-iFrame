@@ -12,6 +12,23 @@ This iFrame POC 3 is:
 4. mini app 3 - React
 5. dev app - For Local Developer Scenario - Angular
 
+## Features
+
+1. Navigation automatic management- Outer and Inner Route in applications
+2. Side Nav
+
+- Show side nav current active link
+- Click capabilities to replace apps and inner navigation on apps
+
+3. Communication - from the shell to apps and vice versa
+4. Pop Up on shell
+5. Browser URL sync with current location of the app
+6. Shell For dev: 3 solutions
+
+- Shell For Dev Web Component
+- Chrome Extension
+- Query Param change to dev app on the fly
+
 ## Shell For Dev
 
 <b>There are 3 solutions that we think about:</b>
